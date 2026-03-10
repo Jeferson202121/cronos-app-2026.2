@@ -1,24 +1,10 @@
-const cacheName = 'cronos-v10';
-const assets = [
-  './',
-  './index.html',
-  './manifest.json'
-];
+const CACHE_NAME = 'cronos-v1';
+const ASSETS = ['./', './index.html', './manifest.json'];
 
-// Instala o Service Worker e armazena os arquivos no cache do celular
 self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(cacheName).then(cache => {
-      return cache.addAll(assets);
-    })
-  );
+  e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)));
 });
 
-// Permite que o app abra mesmo sem internet
 self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request).then(res => {
-      return res || fetch(e.request);
-    })
-  );
+  e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
 });

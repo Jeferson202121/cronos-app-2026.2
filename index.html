@@ -2,114 +2,114 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Cronos 2026</title>
     
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#d4af37">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3652/3652191.png">
-    
-    <link rel="manifest" href="data:application/manifest+json,{'name':'Cronos 2026','short_name':'Cronos','start_url':'.','display':'standalone','background_color':'#121214','theme_color':'#d4af37','icons':[{'src':'https://cdn-icons-png.flaticon.com/512/3652/3652191.png','sizes':'512x512','type':'image/png'}]}">
 
     <style>
         :root { --ouro: #d4af37; --bg: #121214; --card: #1e1e22; --verde: #2ecc71; --vermelho: #e74c3c; }
-        * { box-sizing: border-box; }
-        body { font-family: system-ui, sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 20px; padding-bottom: 120px; }
-
+        body { font-family: system-ui, sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 20px; padding-bottom: 110px; }
+        
         .header { text-align: center; background: var(--card); padding: 20px; border-radius: 20px; border: 1px solid #333; margin-bottom: 20px; }
-        #relogio { font-size: 2.8rem; font-weight: bold; color: var(--ouro); display: block; }
-        #dia-atual { color: #888; text-transform: uppercase; font-size: 0.9rem; }
+        #relogio { font-size: 2.5rem; font-weight: bold; color: var(--ouro); display: block; }
 
-        /* Quadro Unificado Organizado */
-        .quadro-unificado { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid #444; margin-bottom: 30px; }
-        .quadro-unificado th { background: #2c2c2e; color: var(--ouro); padding: 12px; text-align: left; font-size: 0.75rem; }
-        .quadro-unificado td { padding: 10px; border-bottom: 1px solid #333; font-size: 0.85rem; }
-        .dia-label { color: var(--ouro); font-weight: bold; width: 60px; }
-        .local-tag { color: #888; font-size: 0.75rem; display: block; }
+        /* Quadro Geral com Início e Fim */
+        .quadro { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid #444; margin-bottom: 30px; }
+        .quadro th { background: #2c2c2e; color: var(--ouro); padding: 10px; font-size: 0.7rem; text-align: left; }
+        .quadro td { padding: 10px; border-bottom: 1px solid #333; font-size: 0.8rem; vertical-align: middle; }
+        .hora-box { color: var(--verde); font-weight: bold; font-family: monospace; font-size: 0.85rem; }
 
         /* Editor */
         .dia-bloco { background: var(--card); padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #333; }
-        .aula-input { background: #121214; padding: 12px; border-radius: 12px; margin-top: 10px; border: 1px solid #444; }
-        label { font-size: 0.7rem; color: var(--ouro); font-weight: bold; }
-        input { width: 100%; background: #26262c; color: #fff; border: 1px solid #444; padding: 10px; border-radius: 8px; margin: 4px 0 10px 0; font-size: 1rem; }
+        .item-edit { background: #121214; padding: 12px; border-radius: 10px; margin-top: 10px; border: 1px solid #444; }
+        label { font-size: 0.65rem; color: var(--ouro); font-weight: bold; display: block; margin-top: 5px; }
+        input { width: 100%; background: #26262c; color: #fff; border: 1px solid #444; padding: 10px; border-radius: 8px; margin-bottom: 5px; font-size: 1rem; }
         
-        .btn-add { background: var(--ouro); border: none; padding: 6px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        .btn-salvar { position: fixed; bottom: 20px; left: 5%; width: 90%; background: var(--verde); color: #000; padding: 20px; border-radius: 20px; font-weight: bold; font-size: 1.2rem; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 1000; }
-        .btn-del { color: var(--vermelho); background: none; border: 1px solid var(--vermelho); padding: 5px; border-radius: 5px; width: 100%; font-size: 0.8rem; cursor: pointer; }
+        .btn-add { background: var(--ouro); border: none; padding: 5px 15px; border-radius: 8px; font-weight: bold; }
+        .btn-salvar { position: fixed; bottom: 20px; left: 5%; width: 90%; background: var(--verde); color: #000; padding: 20px; border-radius: 20px; font-weight: bold; font-size: 1.1rem; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 9999; }
+        .btn-del { color: var(--vermelho); background: none; border: 1px solid var(--vermelho); width: 100%; padding: 5px; border-radius: 5px; margin-top: 5px; font-size: 0.7rem; }
     </style>
 </head>
 <body>
 
     <div class="header">
         <span id="relogio">00:00:00</span>
-        <span id="dia-atual">---</span>
+        <div id="dia-atual" style="color: #888; font-size: 0.9rem; text-transform: uppercase; margin-top: 5px;">---</div>
     </div>
 
-    <h3 style="color:var(--ouro); border-left: 4px solid var(--ouro); padding-left:10px;">📊 QUADRO GERAL (ORDENADO)</h3>
-    <table class="quadro-unificado">
+    <h3 style="color:var(--ouro); border-left: 4px solid var(--ouro); padding-left: 10px;">📊 QUADRO GERAL COMPLETO</h3>
+    <table class="quadro">
         <thead>
             <tr>
                 <th>DIA</th>
                 <th>ATIVIDADE / LOCAL</th>
-                <th>HORA</th>
+                <th>INÍCIO</th>
+                <th>FIM</th>
             </tr>
         </thead>
         <tbody id="corpo-quadro"></tbody>
     </table>
 
-    <h3 style="color:var(--ouro); border-left: 4px solid var(--ouro); padding-left:10px;">📝 EDITAR HORÁRIOS</h3>
+    <h3 style="color:var(--ouro); border-left: 4px solid var(--ouro); padding-left: 10px;">📝 EDITAR HORÁRIOS</h3>
     <div id="lista-editor"></div>
 
     <button class="btn-salvar" onclick="salvarGeral()">💾 SALVAR E ORGANIZAR (2026)</button>
 
 <script>
-    const SENHA = "2026";
-    const diasSemana = ["Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado", "Domingo"];
-    let agenda = JSON.parse(localStorage.getItem('cronos_v12')) || {};
-
-    // Organiza as atividades por horário crescente
-    function organizar() {
-        diasSemana.forEach(dia => {
-            if (agenda[dia]) {
-                agenda[dia].sort((a, b) => (a.i || "00:00").localeCompare(b.i || "00:00"));
-            }
-        });
+    // Registro para Instalação
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(err => console.log("Erro SW:", err));
     }
 
+    const diasSemana = ["Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado", "Domingo"];
+    let agenda = JSON.parse(localStorage.getItem('cronos_final_v1')) || {};
+
     function atualizarInterface() {
-        organizar();
+        // Organiza por horário de início (Crescente)
+        diasSemana.forEach(d => {
+            if(agenda[d]) agenda[d].sort((a,b) => (a.i || "00:00").localeCompare(b.i || "00:00"));
+        });
+
         const corpo = document.getElementById('corpo-quadro');
-        const lista = document.getElementById('lista-editor');
-        corpo.innerHTML = '';
-        lista.innerHTML = '';
+        const editor = document.getElementById('lista-editor');
+        corpo.innerHTML = ''; 
+        editor.innerHTML = '';
 
         diasSemana.forEach(dia => {
             const aulas = agenda[dia] || [];
             
-            // Quadro Geral
+            // Renderiza Tabela Geral
             aulas.forEach((a, i) => {
                 corpo.innerHTML += `
                     <tr>
-                        <td class="dia-label">${i === 0 ? dia.substring(0,3) : ''}</td>
-                        <td><strong>${a.n || '---'}</strong><span class="local-tag">📍 ${a.l || '---'}</span></td>
-                        <td style="color:var(--verde); font-weight:bold;">${a.i || '--:--'}</td>
+                        <td style="color:var(--ouro); font-weight:bold;">${i === 0 ? dia.substring(0,3) : ''}</td>
+                        <td><b>${a.n || '---'}</b><br><small style="color:#888">📍 ${a.l || '---'}</small></td>
+                        <td class="hora-box">${a.i || '--:--'}</td>
+                        <td class="hora-box" style="color:#888">${a.f || '--:--'}</td>
                     </tr>`;
             });
 
-            // Editor
+            // Renderiza Editor de Entradas
             let htmlInputs = aulas.map((a, i) => `
-                <div class="aula-input">
-                    <label>ATIVIDADE</label><input type="text" value="${a.n}" onchange="upd('${dia}',${i},'n',this.value)">
-                    <label>LOCAL</label><input type="text" value="${a.l}" onchange="upd('${dia}',${i},'l',this.value)">
+                <div class="item-edit">
+                    <label>ATIVIDADE</label>
+                    <input type="text" value="${a.n}" placeholder="Ex: Jiu Jitsu" onchange="upd('${dia}',${i},'n',this.value)">
+                    <label>LOCAL</label>
+                    <input type="text" value="${a.l}" placeholder="Ex: Academia Central" onchange="upd('${dia}',${i},'l',this.value)">
                     <div style="display:flex; gap:10px">
                         <div style="flex:1"><label>INÍCIO</label><input type="time" value="${a.i}" onchange="upd('${dia}',${i},'i',this.value)"></div>
-                        <div style="flex:1"><label>FIM</label><input type="time" value="${a.f}" onchange="upd('${dia}',${i},'f',this.value)"></div>
+                        <div style="flex:1"><label>TÉRMINO</label><input type="time" value="${a.f}" onchange="upd('${dia}',${i},'f',this.value)"></div>
                     </div>
-                    <button class="btn-del" onclick="del('${dia}',${i})">Remover</button>
+                    <button class="btn-del" onclick="del('${dia}',${i})">Excluir</button>
                 </div>
             `).join('');
 
-            lista.innerHTML += `
+            editor.innerHTML += `
                 <div class="dia-bloco">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <b style="color:var(--ouro)">${dia}</b>
@@ -122,36 +122,20 @@
 
     function add(d) { if(!agenda[d]) agenda[d] = []; agenda[d].push({n:'', l:'', i:'', f:''}); atualizarInterface(); }
     function upd(d, i, f, v) { agenda[d][i][f] = v; }
-    function del(d, i) { if(prompt("Senha:")===SENHA) { agenda[d].splice(i,1); atualizarInterface(); } }
+    function del(d, i) { if(confirm("Deseja excluir esta atividade?")) { agenda[d].splice(i,1); atualizarInterface(); } }
     
     function salvarGeral() {
-        if(prompt("Senha 2026 para Salvar e Organizar:") === SENHA) {
-            localStorage.setItem('cronos_v12', JSON.stringify(agenda));
-            atualizarInterface();
-            alert("✅ Tudo salvo e organizado por horário!");
-        }
+        localStorage.setItem('cronos_final_v1', JSON.stringify(agenda));
+        atualizarInterface();
+        alert("✅ Horários salvos e organizados!");
     }
 
+    // Relógio em tempo real
     setInterval(() => {
         const agora = new Date();
-        const h = agora.getHours().toString().padStart(2,'0') + ":" + agora.getMinutes().toString().padStart(2,'0');
         document.getElementById('relogio').innerText = agora.toLocaleTimeString('pt-BR');
         document.getElementById('dia-atual').innerText = diasSemana[agora.getDay() === 0 ? 6 : agora.getDay()-1];
-        
-        // Avisos automáticos
-        if (agora.getSeconds() === 0) {
-            const diaHoje = diasSemana[agora.getDay() === 0 ? 6 : agora.getDay()-1];
-            (agenda[diaHoje] || []).forEach(a => {
-                if(a.i === h) alert("🔔 COMEÇOU: " + a.n + " em " + a.l);
-                if(a.f === h) alert("🛑 TERMINOU: " + a.n);
-            });
-        }
     }, 1000);
-
-    // Registro automático do Service Worker para instalação
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('data:text/javascript;base64,' + btoa('self.addEventListener("fetch", (e) => e.respondWith(fetch(e.request)));'));
-    }
 
     atualizarInterface();
 </script>
